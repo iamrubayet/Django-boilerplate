@@ -23,6 +23,7 @@ from book_api.models import Books
 from django.forms import ValidationError
 
 class BookSerializer(serializers.ModelSerializer):
+    description = serializers.SerializerMethodField()
     class meta:
         model = Books
         fields = '__all__'
@@ -35,6 +36,8 @@ class BookSerializer(serializers.ModelSerializer):
         if data['quantity'] < 0:
             raise ValidationError('Quantity cannot be negative')
         return data
+    def get_description(self,data):
+        return "this book is called"+ data.title + "and it is" + str(data.number_of_pages) + "pages long"
 
     
 
